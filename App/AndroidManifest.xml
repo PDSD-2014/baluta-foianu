@@ -22,6 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="activities.PrintActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="activities.MainActivity">
+        </activity>
     </application>
 
 </manifest>

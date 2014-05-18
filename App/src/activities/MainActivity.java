@@ -2,6 +2,7 @@ package activities;
 
 import libs.IntentIntegrator;
 import libs.IntentResult;
+import services.QrClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import app.res.R;
 
 public class MainActivity extends Activity {
+	private QrClient rs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		findViewById(R.id.scan).setOnClickListener(scanQRCode);
+		findViewById(R.id.list).setOnClickListener(listQR);
+		rs = new QrClient("http://192.168.56.1:8080/");
 	}
 
 	@Override
@@ -44,10 +48,31 @@ public class MainActivity extends Activity {
 	private final View.OnClickListener scanQRCode = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			System.out.println("Integrator");
 			IntentIntegrator integrator = new IntentIntegrator(
 					MainActivity.this);
-			integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+			// integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+			try {
+				rs.postQr("uncod");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	private final View.OnClickListener listQR = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			String reply = "";
+			try {
+				reply = rs.listQr();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Intent printActivity = new Intent(getApplicationContext(),
+					PrintActivity.class);
+			printActivity.putExtra("content", reply);
+			startActivity(printActivity);
 		}
 	};
 
@@ -60,10 +85,10 @@ public class MainActivity extends Activity {
 			String contents = result.getContents();
 			System.out.println(contents);
 			Log.e("Content: ", contents);
-			
+
 			Log.e("Bytes: ", new String(result.getRawBytes()));
 			TextView label = new TextView(this);
-			label.setText(new String(result.getRawBytes()));		
+			label.setText(new String(result.getRawBytes()));
 		} else {
 			Log.e("Res:", "NULL");
 		}
