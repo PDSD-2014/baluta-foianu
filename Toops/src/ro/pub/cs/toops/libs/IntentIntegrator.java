@@ -1,4 +1,4 @@
-package libs;
+package ro.pub.cs.toops.libs;
 
 /*
 * Copyright 2009 ZXing authors

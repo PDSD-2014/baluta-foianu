@@ -1,4 +1,4 @@
-package app.activities;
+package ro.pub.cs.toops.activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

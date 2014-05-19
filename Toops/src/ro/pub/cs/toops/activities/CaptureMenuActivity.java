@@ -1,6 +1,8 @@
-package app.activities;
+package ro.pub.cs.toops.activities;
 
 import java.io.File;
+
+import ro.pub.cs.toops.utilities.FileHandler;
 
 import android.app.Activity;
 import android.content.Context;

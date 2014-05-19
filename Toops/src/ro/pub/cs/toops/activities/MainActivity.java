@@ -1,10 +1,10 @@
-package app.activities;
+package ro.pub.cs.toops.activities;
 
 import java.util.zip.Inflater;
 
-import libs.IntentIntegrator;
-import libs.IntentResult;
-import services.QrClient;
+import ro.pub.cs.toops.libs.IntentIntegrator;
+import ro.pub.cs.toops.libs.IntentResult;
+import ro.pub.cs.toops.services.QrClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

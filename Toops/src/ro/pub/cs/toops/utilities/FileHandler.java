@@ -1,4 +1,4 @@
-package app.activities;
+package ro.pub.cs.toops.utilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
