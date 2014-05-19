@@ -1,5 +1,6 @@
 package ro.pub.cs.toops.activities;
 
+import java.io.UnsupportedEncodingException;
 import java.util.zip.Inflater;
 
 import ro.pub.cs.toops.libs.IntentIntegrator;
@@ -75,28 +76,27 @@ public class MainActivity extends Activity {
 	};
 
 	// FIXME not tested!
-	private String inflate(byte[] archive) {
-	     // Decompress the bytes
-	     Inflater decompresser = new Inflater();
-	     String outputString = null;
-	     try {
-	     decompresser.setInput(archive, 0, archive.length);
-	     byte[] result = new byte[100];
-	     int resultLength = decompresser.inflate(result);
-	     decompresser.end();
+	private String interpret(byte[] archive) {
+		// Decompress the bytes
+		Inflater decompresser = new Inflater();
+		String outputString = null;
+		try {
+			decompresser.setInput(archive, 0, archive.length);
+			byte[] result = new byte[4000];
+			int resultLength = decompresser.inflate(result);
+			decompresser.end();
 
-	     // Decode the bytes into a String
-	     outputString = new String(result, 0, resultLength, "UTF-8");
-	     } catch(java.io.UnsupportedEncodingException ex) {
-	    	 Log.e(R.class.getName(), "UnsupportedEncodingException");
-	    	 ex.printStackTrace();
-	     } catch (java.util.zip.DataFormatException ex) {
-	    	 Log.e(R.class.getName(), "DataFormatException");
-	    	 // This is not an archive actually, just plain text
-	    	 return new String(archive);
-	     }
-	     Log.e("mesaje", "Decoded: " + outputString);
-	     return outputString;
+			// Decode the bytes into a String
+			outputString = new String(result, 0, resultLength, "UTF-8");
+		} catch (java.io.UnsupportedEncodingException ex) {
+			Log.e(R.class.getName(), "UnsupportedEncodingException");
+			ex.printStackTrace();
+		} catch (java.util.zip.DataFormatException ex) {
+			// This is not an archive actually, just plain text
+			Log.e(R.class.getName(), "DataFormatException");
+		}
+		Log.e("mesaje", "Decoded: " + outputString);
+		return outputString;
 	}
 
 	
@@ -105,11 +105,13 @@ public class MainActivity extends Activity {
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
 				resultCode, intent);
 		if (result != null) {
-			String contents = inflate(result.getRawBytes());
+			String decodedContent = interpret(result.getRawBytes());
+			if (decodedContent == null)
+				decodedContent = result.getContents();
 			Intent captureMenuIntent = new Intent(this, CaptureMenuActivity.class);
 
 			// XXX if the Oops is not in a zlib compressed format
-			captureMenuIntent.putExtra(EXTRA_MESSAGE, contents);
+			captureMenuIntent.putExtra(EXTRA_MESSAGE, decodedContent);
 			startActivity(captureMenuIntent);		
 		} else {
 			Log.e("QrLog", "Scan result is NULL");
