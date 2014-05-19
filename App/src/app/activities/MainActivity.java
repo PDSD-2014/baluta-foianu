@@ -8,6 +8,7 @@ import services.QrClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		findViewById(R.id.scan).setOnClickListener(scanQRCode);
 		findViewById(R.id.saved).setOnClickListener(viewSaved);
-		rs = new QrClient("http://192.168.56.1:8080/");
+
+		String server = PreferenceManager.getDefaultSharedPreferences(this).getString("server", "http://localhost:8080/");
+		rs = new QrClient(server);
 	}
 
 	@Override
@@ -41,6 +44,8 @@ public class MainActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			Intent settingsIntent = new Intent(this, ConfigActivity.class);
+			startActivity(settingsIntent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -25,11 +25,20 @@
         </activity>
         <activity
             android:name="app.activities.CaptureMenuActivity"
-            android:label="@string/title_activity_capture_menu" >
+            android:label="@string/title_activity_capture_menu"
             android:parentActivityName="app.activities.MainActivity" >
             <meta-data
-            	android:name="android.support.PARENT_ACTIVITY"
-            	android:value="app.activities.MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name="app.activities.ConfigActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="app.activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
