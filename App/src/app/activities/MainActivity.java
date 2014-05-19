@@ -1,4 +1,6 @@
-package activities;
+package app.activities;
+
+import java.util.zip.Inflater;
 
 import libs.IntentIntegrator;
 import libs.IntentResult;
@@ -10,24 +12,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import app.res.R;
 
 public class MainActivity extends Activity {
 	private QrClient rs;
+	public final static String EXTRA_MESSAGE = "app.activities.MESSAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		findViewById(R.id.scan).setOnClickListener(scanQRCode);
-		findViewById(R.id.list).setOnClickListener(listQR);
+		findViewById(R.id.saved).setOnClickListener(viewSaved);
 		rs = new QrClient("http://192.168.56.1:8080/");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -59,7 +60,7 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	private final View.OnClickListener listQR = new View.OnClickListener() {
+	private final View.OnClickListener viewSaved = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			String reply = "";
@@ -76,21 +77,48 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	// FIXME not tested!
+	private String inflate(byte[] archive) {
+	     // Decompress the bytes
+	     Inflater decompresser = new Inflater();
+	     String outputString = null;
+	     try {
+	     decompresser.setInput(archive, 0, archive.length);
+	     byte[] result = new byte[100];
+	     int resultLength = decompresser.inflate(result);
+	     decompresser.end();
+
+	     // Decode the bytes into a String
+	     outputString = new String(result, 0, resultLength, "UTF-8");
+	     } catch(java.io.UnsupportedEncodingException ex) {
+	    	 Log.e(R.class.getName(), "UnsupportedEncodingException");
+	    	 ex.printStackTrace();
+	     } catch (java.util.zip.DataFormatException ex) {
+	    	 Log.e(R.class.getName(), "DataFormatException");
+	    	 ex.printStackTrace();
+	     }
+	     
+			Intent printActivity = new Intent(getApplicationContext(),
+					PrintActivity.class);
+			printActivity.putExtra("content", outputString);
+			startActivity(printActivity);
+			
+	     return outputString;
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
 				resultCode, intent);
-		Log.e("ceva", "Got result");
 		if (result != null) {
 			String contents = result.getContents();
-			System.out.println(contents);
-			Log.e("Content: ", contents);
+			Intent captureMenuIntent = new Intent(this, CaptureMenuActivity.class);
 
-			Log.e("Bytes: ", new String(result.getRawBytes()));
-			TextView label = new TextView(this);
-			label.setText(new String(result.getRawBytes()));
+			// XXX if the Oops is not in a zlib compressed format
+			captureMenuIntent.putExtra(EXTRA_MESSAGE, contents);
+			startActivity(captureMenuIntent);		
 		} else {
-			Log.e("Res:", "NULL");
+			Log.e("QrLog", "Scan result is NULL");
 		}
 	}
 
