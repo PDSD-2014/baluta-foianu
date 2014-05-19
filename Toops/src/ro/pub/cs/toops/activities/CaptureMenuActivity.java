@@ -21,7 +21,8 @@ public class CaptureMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_capture_menu);
-		findViewById(R.id.send).setOnClickListener(sendOops);
+		findViewById(R.id.sendS).setOnClickListener(sendToWS);
+		findViewById(R.id.sendE).setOnClickListener(sendToEmail);
 		findViewById(R.id.save).setOnClickListener(saveOops);
 
 		/* Set display for Oops */
@@ -66,11 +67,16 @@ public class CaptureMenuActivity extends Activity {
 		}
 	};
 
-	private final View.OnClickListener sendOops = new View.OnClickListener() {
+	private final View.OnClickListener sendToWS = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("mesaje", "Trying to post: " + message);
 			MainActivity.rs.postQr(message);
+		}
+	};
+
+	private final View.OnClickListener sendToEmail = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
 			sendEmail(message);
 		}
 	};
