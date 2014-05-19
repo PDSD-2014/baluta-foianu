@@ -15,7 +15,7 @@ import android.view.View;
 import app.res.R;
 
 public class MainActivity extends Activity {
-	private QrClient rs;
+	public static QrClient rs;
 	public final static String EXTRA_MESSAGE = "app.activities.MESSAGE";
 
 	@Override
@@ -51,12 +51,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			IntentIntegrator integrator = new IntentIntegrator(
 					MainActivity.this);
-			// integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-			try {
-				rs.postQr("uncod");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
 		}
 	};
 
@@ -69,11 +64,8 @@ public class MainActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			Intent printActivity = new Intent(getApplicationContext(),
-					PrintActivity.class);
-			printActivity.putExtra("content", reply);
-			startActivity(printActivity);
+			// Reply is a list of id-code pairs in json format currently.
+			// Should be parsed by QrClient
 		}
 	};
 
@@ -97,11 +89,6 @@ public class MainActivity extends Activity {
 	    	 Log.e(R.class.getName(), "DataFormatException");
 	    	 ex.printStackTrace();
 	     }
-	     
-			Intent printActivity = new Intent(getApplicationContext(),
-					PrintActivity.class);
-			printActivity.putExtra("content", outputString);
-			startActivity(printActivity);
 			
 	     return outputString;
 	}

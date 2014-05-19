@@ -1,5 +1,6 @@
 package app.activities;
 
+import services.QrClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class CaptureMenuActivity extends Activity {
 		Intent intent = getIntent();
 		message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 		findViewById(R.id.view).setOnClickListener(viewOops);
+		findViewById(R.id.send).setOnClickListener(sendOops);
 	}
 
 	@Override
@@ -51,6 +53,14 @@ public class CaptureMenuActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			sendMessage(v);
+		}
+	};
+
+	private final View.OnClickListener sendOops = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			sendMessage(v);
+			MainActivity.rs.postQr(getIntent().getStringExtra(MainActivity.EXTRA_MESSAGE));
 		}
 	};
 }
