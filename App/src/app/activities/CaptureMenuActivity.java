@@ -1,12 +1,13 @@
 package app.activities;
 
-import services.QrClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import app.res.R;
 
 public class CaptureMenuActivity extends Activity {
@@ -16,11 +17,20 @@ public class CaptureMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_capture_menu);
+		findViewById(R.id.send).setOnClickListener(sendOops);
+		findViewById(R.id.save).setOnClickListener(saveOops);
+
+		/* Set display for Oops */
+		TextView oopsView = (TextView) findViewById(R.id.displayoops);
 
 		Intent intent = getIntent();
 		message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-		findViewById(R.id.view).setOnClickListener(viewOops);
-		findViewById(R.id.send).setOnClickListener(sendOops);
+
+		oopsView.setMovementMethod(new ScrollingMovementMethod());
+		oopsView.setText(message
+				+ "\n\niushfouabevrnlvnbsoiuqbwadcskjfhb12yu4yt2387ry5q9u"
+				+ "2wnkdjssnvskahjbdfioauskdbvfan" + "\n\n\nwkjrbquyrvibwsfkd"
+				+ "enfliaejrbfjkbfluiaq2rfwesd\n\n\n");
 	}
 
 	@Override
@@ -42,25 +52,18 @@ public class CaptureMenuActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void sendMessage(View view) {
-		Intent viewOopsIntent = new Intent(this, ViewOopsActivity.class);
-		viewOopsIntent.putExtra(MainActivity.EXTRA_MESSAGE, message);
-	    startActivity(viewOopsIntent);
-	}
-	
-	private final View.OnClickListener viewOops = new View.OnClickListener() {
+
+	private final View.OnClickListener saveOops = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			sendMessage(v);
 		}
 	};
 
 	private final View.OnClickListener sendOops = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			sendMessage(v);
-			MainActivity.rs.postQr(getIntent().getStringExtra(MainActivity.EXTRA_MESSAGE));
+			MainActivity.rs.postQr(getIntent().getStringExtra(
+					MainActivity.EXTRA_MESSAGE));
 		}
 	};
 }

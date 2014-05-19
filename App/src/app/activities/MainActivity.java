@@ -92,6 +92,7 @@ public class MainActivity extends Activity {
 			
 	     return outputString;
 	}
+
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {

@@ -25,14 +25,10 @@
         <activity
             android:name="app.activities.CaptureMenuActivity"
             android:label="@string/title_activity_capture_menu" >
-        </activity>
-        <activity
-            android:name="app.activities.ViewOopsActivity"
-            android:label="@string/title_activity_view_oops"
-			android:parentActivityName="app.activities.CaptureMenuActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="app.activities.CaptureMenuActivity" />
+            android:parentActivityName="app.activities.MainActivity" >
+            <meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="app.activities.MainActivity" />
         </activity>
     </application>
 
