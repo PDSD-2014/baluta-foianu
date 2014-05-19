@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class QrController {
 
-    private static final String template = "I am QR code with id %d!";
-    private Map<Long, QrCode> codes = new HashMap<Long, QrCode>();
-    private final AtomicLong counter = new AtomicLong();
+	private static final String template = "I am QR code with id %d!";
+	private Map<Long, QrCode> codes = new HashMap<Long, QrCode>();
+	private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping("/getqr")
-    public @ResponseBody QrCode getQr(
-            @RequestParam(value="id", required=true) long id) {
-        return codes.get(id);
-    }
+	@RequestMapping("/getqr")
+	public @ResponseBody QrCode getQr(
+			@RequestParam(value="id", required=true) long id) {
+		return codes.get(id);
+			}
 
-    @RequestMapping("/list")
-    public @ResponseBody Collection<QrCode> list() {
-        return codes.values();
-    }
+	@RequestMapping("/list")
+	public @ResponseBody Collection<QrCode> list() {
+		return codes.values();
+	}
 
 	@RequestMapping(method=RequestMethod.POST)
 	public void postQr(
