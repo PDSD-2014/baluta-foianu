@@ -1,4 +1,6 @@
-package activities;
+package app.activities;
+
+import java.util.zip.Inflater;
 
 import libs.IntentIntegrator;
 import libs.IntentResult;
@@ -9,10 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import app.res.R;
 
 public class MainActivity extends Activity {
+    public final static String EXTRA_MESSAGE = "app.activities.MESSAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,6 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -51,6 +52,29 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	// FIXME not tested!
+	private static String inflate(byte[] archive) {
+	     // Decompress the bytes
+	     Inflater decompresser = new Inflater();
+	     String outputString = null;
+	     try {
+	     decompresser.setInput(archive, 0, archive.length);
+	     byte[] result = new byte[100];
+	     int resultLength = decompresser.inflate(result);
+	     decompresser.end();
+
+	     // Decode the bytes into a String
+	     outputString = new String(result, 0, resultLength, "UTF-8");
+	     } catch(java.io.UnsupportedEncodingException ex) {
+	    	 Log.e(R.class.getName(), "UnsupportedEncodingException");
+	    	 ex.printStackTrace();
+	     } catch (java.util.zip.DataFormatException ex) {
+	    	 Log.e(R.class.getName(), "DataFormatException");
+	    	 ex.printStackTrace();
+	     }
+	     return outputString;
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
@@ -62,8 +86,10 @@ public class MainActivity extends Activity {
 			Log.e("Content: ", contents);
 			
 			Log.e("Bytes: ", new String(result.getRawBytes()));
-			TextView label = new TextView(this);
-			label.setText(new String(result.getRawBytes()));		
+			Intent captureMenuIntent = new Intent(this, CaptureMenuActivity.class);
+			// XXX if the Oops is not in a zlib compressed format
+			captureMenuIntent.putExtra(EXTRA_MESSAGE, contents);
+		    startActivity(captureMenuIntent);		
 		} else {
 			Log.e("Res:", "NULL");
 		}

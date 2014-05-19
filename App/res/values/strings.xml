@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">App</string>
+    <string name="app_name">Toops - Tracking Oops</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="oops">Oops</string>
+    <string name="title_activity_capture_menu">Toops - Tracking Oops</string>
+    <string name="title_activity_view_oops">View Oops</string>
 
 </resources>

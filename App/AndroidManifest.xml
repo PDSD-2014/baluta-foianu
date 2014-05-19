@@ -14,13 +14,25 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="activities.MainActivity"
+            android:name="app.activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="app.activities.CaptureMenuActivity"
+            android:label="@string/title_activity_capture_menu" >
+        </activity>
+        <activity
+            android:name="app.activities.ViewOopsActivity"
+            android:label="@string/title_activity_view_oops"
+			android:parentActivityName="app.activities.CaptureMenuActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="app.activities.CaptureMenuActivity" />
         </activity>
     </application>
 
