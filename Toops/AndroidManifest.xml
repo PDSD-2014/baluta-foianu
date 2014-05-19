@@ -3,8 +3,9 @@
     package="app.res"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
+
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
@@ -30,13 +31,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.activities.MainActivity" />
+            <action android:name="android.intent.action.SENDTO" />
         </activity>
         <activity
             android:name="ro.pub.cs.toops.activities.ConfigActivity"
             android:label="@string/app_name"
-            android:parentActivityName="ro.pub.cs.toops.activities.MainActivity">
+            android:parentActivityName="ro.pub.cs.toops.activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

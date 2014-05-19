@@ -1,20 +1,17 @@
 package ro.pub.cs.toops.activities;
 
-import java.io.File;
-
 import ro.pub.cs.toops.utilities.FileHandler;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import app.res.R;
 
 public class CaptureMenuActivity extends Activity {
@@ -72,6 +69,18 @@ public class CaptureMenuActivity extends Activity {
 		public void onClick(View v) {
 			Log.e("mesaje", "Trying to post: " + message);
 			MainActivity.rs.postQr(message);
+			sendEmail(message);
 		}
 	};
+
+	private final void sendEmail(String message) {
+		Intent intent = new Intent(Intent.ACTION_SENDTO);
+		intent.setType("message/rfc822");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Subject of email");
+		intent.putExtra(Intent.EXTRA_TEXT, message);
+		intent.setData(Uri.parse("mailto:dragos.foianu@gmail.com"));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+	    startActivity(Intent.createChooser(intent, "Send email using..."));
+	}
 }
