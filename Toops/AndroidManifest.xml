@@ -37,9 +37,6 @@
             android:name="ro.pub.cs.toops.activities.ConfigActivity"
             android:label="@string/app_name"
             android:parentActivityName="ro.pub.cs.toops.activities.MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
     </application>
 
