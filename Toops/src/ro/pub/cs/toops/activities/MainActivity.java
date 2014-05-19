@@ -92,7 +92,8 @@ public class MainActivity extends Activity {
 	    	 ex.printStackTrace();
 	     } catch (java.util.zip.DataFormatException ex) {
 	    	 Log.e(R.class.getName(), "DataFormatException");
-	    	 ex.printStackTrace();
+	    	 // This is not an archive actually, just plain text
+	    	 return new String(archive);
 	     }
 	     Log.e("mesaje", "Decoded: " + outputString);
 	     return outputString;
