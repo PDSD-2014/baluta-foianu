@@ -1,8 +1,12 @@
 package app.activities;
 
+import java.io.File;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -57,6 +61,7 @@ public class CaptureMenuActivity extends Activity {
 	private final View.OnClickListener saveOops = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			FileHandler.saveOopsToFile(message);
 		}
 	};
 
