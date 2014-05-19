@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.Collection;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class QrController {
@@ -27,10 +29,10 @@ public class QrController {
         return codes.values();
     }
 
-    @RequestMapping("/postqr")
-    public @ResponseBody void postQr(
-            @RequestParam(value="code", required=true) String code) {
-    	QrCode newCode = new QrCode(counter.incrementAndGet(), code);
-    	codes.put(newCode.getId(), newCode);
+	@RequestMapping(method=RequestMethod.POST)
+	public void postQr(
+			@RequestBody String json) {
+		QrCode newCode = new QrCode(counter.incrementAndGet(), json);
+		codes.put(newCode.getId(), newCode);
 	}
 }

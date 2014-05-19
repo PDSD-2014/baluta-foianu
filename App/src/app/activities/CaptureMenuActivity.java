@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,8 +63,8 @@ public class CaptureMenuActivity extends Activity {
 	private final View.OnClickListener sendOops = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			MainActivity.rs.postQr(getIntent().getStringExtra(
-					MainActivity.EXTRA_MESSAGE));
+			Log.e("mesaje", "Trying to post: " + message);
+			MainActivity.rs.postQr(message);
 		}
 	};
 }

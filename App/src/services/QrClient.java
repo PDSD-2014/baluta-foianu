@@ -10,8 +10,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,11 +35,21 @@ public class QrClient {
 		StrictMode.setThreadPolicy(policy);
 		HttpClient httpclient = new DefaultHttpClient();
 
-		HttpGet request = new HttpGet(url + "postqr?code=" + code);
-		request.addHeader("content-type", "application/x-www-form-urlencoded");
+		Log.e("mesaje", code);
+		HttpPost request = new HttpPost(url + "postqr");
+		request.addHeader("content-type", "application/json");
 
+		JSONObject json = new JSONObject();
 		try {
+			json.put("code", code);
+			StringEntity se = new StringEntity( "JSON: " + json.toString());
+			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			request.setEntity(se);
 			httpclient.execute(request);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
