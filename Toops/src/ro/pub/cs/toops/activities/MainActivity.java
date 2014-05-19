@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
 	    	 Log.e(R.class.getName(), "DataFormatException");
 	    	 ex.printStackTrace();
 	     }
-			
+	     Log.e("mesaje", "Decoded: " + outputString);
 	     return outputString;
 	}
 
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
 				resultCode, intent);
 		if (result != null) {
-			String contents = result.getContents();
+			String contents = inflate(result.getRawBytes());
 			Intent captureMenuIntent = new Intent(this, CaptureMenuActivity.class);
 
 			// XXX if the Oops is not in a zlib compressed format
