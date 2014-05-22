@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +30,7 @@ public class CaptureMenuActivity extends Activity {
 		message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
 		oopsView.setMovementMethod(new ScrollingMovementMethod());
-		oopsView.setText(message
-				+ "\n\niushfouabevrnlvnbsoiuqbwadcskjfhb12yu4yt2387ry5q9u"
-				+ "2wnkdjssnvskahjbdfioauskdbvfan" + "\n\n\nwkjrbquyrvibwsfkd"
-				+ "enfliaejrbfjkbfluiaq2rfwesd\n\n\n");
+		oopsView.setText(message);
 	}
 
 	@Override

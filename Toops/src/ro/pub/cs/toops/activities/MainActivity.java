@@ -1,6 +1,5 @@
 package ro.pub.cs.toops.activities;
 
-import java.io.UnsupportedEncodingException;
 import java.util.zip.Inflater;
 
 import ro.pub.cs.toops.libs.IntentIntegrator;
@@ -95,7 +94,7 @@ public class MainActivity extends Activity {
 			// This is not an archive actually, just plain text
 			Log.e(R.class.getName(), "DataFormatException");
 		}
-		Log.e("mesaje", "Decoded: " + outputString);
+
 		return outputString;
 	}
 

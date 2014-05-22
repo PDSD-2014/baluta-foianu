@@ -42,7 +42,7 @@ public class QrClient {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("code", code);
-			StringEntity se = new StringEntity( "JSON: " + json.toString());
+			StringEntity se = new StringEntity(json.toString());
 			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 			request.setEntity(se);
 			httpclient.execute(request);
