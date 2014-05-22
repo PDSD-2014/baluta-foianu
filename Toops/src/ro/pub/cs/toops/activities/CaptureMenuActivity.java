@@ -1,5 +1,7 @@
 package ro.pub.cs.toops.activities;
 
+import java.io.File;
+
 import ro.pub.cs.toops.utilities.FileHandler;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import app.res.R;
@@ -88,5 +91,10 @@ public class CaptureMenuActivity extends Activity {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 	    startActivity(Intent.createChooser(intent, "Send email using..."));
+	}
+
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 }

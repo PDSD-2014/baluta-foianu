@@ -12,6 +12,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -59,23 +60,26 @@ public class FileChooser extends ListActivity {
 
 		} else {
 			try {
-			BufferedReader br = new BufferedReader(new FileReader(temp_file));
-			try {
-				StringBuilder sb = new StringBuilder();
-				String line = br.readLine();
+				BufferedReader br = new BufferedReader(
+						new FileReader(temp_file));
+				try {
+					StringBuilder sb = new StringBuilder();
+					String line = br.readLine();
 
-				while (line != null) {
-					sb.append(line);
-					sb.append("\n");
-					line = br.readLine();
+					while (line != null) {
+						sb.append(line);
+						sb.append("\n");
+						line = br.readLine();
+					}
+
+					Intent viewOopsIntent = new Intent(this,
+							CaptureMenuActivity.class);
+					viewOopsIntent.putExtra(MainActivity.EXTRA_MESSAGE,
+							sb.toString());
+					startActivity(viewOopsIntent);
+				} finally {
+					br.close();
 				}
-
-				Intent viewOopsIntent = new Intent(this, CaptureMenuActivity.class);
-				viewOopsIntent.putExtra(MainActivity.EXTRA_MESSAGE, sb.toString());
-				startActivity(viewOopsIntent);
-			} finally {
-				br.close();
-			}
 			} catch (IOException e) {
 				Log.e("Browse", "Error opening/reading from QR file");
 			}
@@ -83,21 +87,40 @@ public class FileChooser extends ListActivity {
 
 	}
 
+	float touchXDown, touchXUp;
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			touchXUp = event.getX();
+
+			if (touchXUp > touchXDown) {
+				return true;
+			}
+
+			String parent = file.getParent().toString();
+			file = new File(parent);
+			File list[] = file.listFiles();
+
+			myList.clear();
+
+			for (int i = 0; i < list.length; i++) {
+				myList.add(list[i].getName());
+			}
+			Toast.makeText(getApplicationContext(), parent, Toast.LENGTH_LONG)
+					.show();
+			setListAdapter(new ArrayAdapter<String>(this,
+					android.R.layout.simple_list_item_1, myList));
+
+		} else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			touchXDown = event.getX();
+		}
+
+		return true;
+	}
+
 	@Override
 	public void onBackPressed() {
-		String parent = file.getParent().toString();
-		file = new File(parent);
-		File list[] = file.listFiles();
-
-		myList.clear();
-
-		for (int i = 0; i < list.length; i++) {
-			myList.add(list[i].getName());
-		}
-		Toast.makeText(getApplicationContext(), parent, Toast.LENGTH_LONG)
-				.show();
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, myList));
-
+		finish();
 	}
 }
