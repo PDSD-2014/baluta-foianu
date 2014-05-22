@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import app.res.R;
 
 public class CaptureMenuActivity extends Activity {
@@ -48,8 +49,7 @@ public class CaptureMenuActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			Intent settingsIntent = new Intent(this, ConfigActivity.class);
-			startActivity(settingsIntent);
+			Toast.makeText(getApplicationContext(), "Please launch settings from home menu.", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -59,6 +59,7 @@ public class CaptureMenuActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			FileHandler.saveOopsToFile(message);
+			Toast.makeText(getApplicationContext(), "Oops saved", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -66,6 +67,7 @@ public class CaptureMenuActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			MainActivity.rs.postQr(message);
+			Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_SHORT).show();
 		}
 	};
 

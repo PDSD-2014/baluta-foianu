@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import app.res.R;
 
 public class ConfigActivity extends Activity {
@@ -20,7 +21,6 @@ public class ConfigActivity extends Activity {
 
 		app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		findViewById(R.id.savecfg).setOnClickListener(save);
-		;
 
 		String server = app_preferences.getString("server",
 				"http://localhost:8080/");
@@ -37,12 +37,20 @@ public class ConfigActivity extends Activity {
 			String server = ((EditText) findViewById(R.id.text)).getText()
 					.toString();
 			if (!server.matches("http://.*:[0-9]*/")) {
-				Log.e("mesaje", "Server config is invalid");
-				return;
+				if (server.matches("http://.*:[0-9]*")) {
+					server += "/";
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Server configuration is invalid",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
 			}
-				
+
 			editor.putString("server", server);
 			editor.commit();
+			Toast.makeText(getApplicationContext(), "Settings saved",
+					Toast.LENGTH_SHORT).show();
 		}
 	};
 }
