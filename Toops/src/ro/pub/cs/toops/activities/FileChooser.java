@@ -1,6 +1,9 @@
 package ro.pub.cs.toops.activities;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import ro.pub.cs.toops.utilities.FileHandler;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -54,9 +58,27 @@ public class FileChooser extends ListActivity {
 					android.R.layout.simple_list_item_1, myList));
 
 		} else {
-			// XXX send the file to display
-			Intent viewOopsIntent = new Intent(this, CaptureMenuActivity.class);
-			startActivity(viewOopsIntent);
+			try {
+			BufferedReader br = new BufferedReader(new FileReader(temp_file));
+			try {
+				StringBuilder sb = new StringBuilder();
+				String line = br.readLine();
+
+				while (line != null) {
+					sb.append(line);
+					sb.append("\n");
+					line = br.readLine();
+				}
+
+				Intent viewOopsIntent = new Intent(this, CaptureMenuActivity.class);
+				viewOopsIntent.putExtra(MainActivity.EXTRA_MESSAGE, sb.toString());
+				startActivity(viewOopsIntent);
+			} finally {
+				br.close();
+			}
+			} catch (IOException e) {
+				Log.e("Browse", "Error opening/reading from QR file");
+			}
 		}
 
 	}

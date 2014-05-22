@@ -42,10 +42,8 @@
         </activity>
         <activity
             android:name="ro.pub.cs.toops.activities.FileChooser"
-            android:label="@string/title_activity_file_choser" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.activities.MainActivity" />
+            android:label="@string/title_activity_file_choser"
+			android:parentActivityName="ro.pub.cs.toops.activities.MainActivity">
         </activity>
     </application>
 
