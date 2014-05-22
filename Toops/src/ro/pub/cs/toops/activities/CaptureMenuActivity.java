@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,11 +80,12 @@ public class CaptureMenuActivity extends Activity {
 	};
 
 	private final void sendEmail(String message) {
+		String to = PreferenceManager.getDefaultSharedPreferences(this).getString("email", "");
 		Intent intent = new Intent(Intent.ACTION_SENDTO);
 		intent.setType("message/rfc822");
 		intent.putExtra(Intent.EXTRA_SUBJECT, "Subject of email");
 		intent.putExtra(Intent.EXTRA_TEXT, message);
-		intent.setData(Uri.parse("mailto:dragos.foianu@gmail.com"));
+		intent.setData(Uri.parse("mailto:" + to));
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 	    startActivity(Intent.createChooser(intent, "Send email using..."));

@@ -25,8 +25,13 @@ public class ConfigActivity extends Activity {
 		String server = app_preferences.getString("server",
 				"http://localhost:8080/");
 
-		EditText text = (EditText) findViewById(R.id.text);
-		text.setText(server);
+		String my_email = app_preferences.getString("email", "");
+
+		EditText serverText = (EditText) findViewById(R.id.text);
+		serverText.setText(server);
+
+		EditText emailText = (EditText) findViewById(R.id.email);
+		emailText.setText(my_email);
 
 	}
 
@@ -36,18 +41,42 @@ public class ConfigActivity extends Activity {
 			SharedPreferences.Editor editor = app_preferences.edit();
 			String server = ((EditText) findViewById(R.id.text)).getText()
 					.toString();
-			if (!server.matches("http://.*:[0-9]*/")) {
-				if (server.matches("http://.*:[0-9]*")) {
+			String email = ((EditText) findViewById(R.id.email)).getText()
+					.toString();
+
+			/* Check server/IP validity */
+			String validServer = "^http://[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,}):[1-9]([0-9])*";
+			if (!server.matches(validServer + "/")) {
+				if (server.matches(validServer)) {
 					server += "/";
 				} else {
-					Toast.makeText(getApplicationContext(),
-							"Server configuration is invalid",
-							Toast.LENGTH_SHORT).show();
-					return;
+					String validIP =
+							"^http://([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5]):[1-9]([0-9])*";
+					if (!server.matches(validIP + "/")) {
+						if (server.matches(validIP)) {
+							server += "/";
+						} else {
+							Toast.makeText(getApplicationContext(),
+									"Server configuration is invalid",
+									Toast.LENGTH_SHORT).show();
+							return;
+						}
+					}
+
+					if (!email.matches(".+@.+[.].+")) {
+						Toast.makeText(getApplicationContext(),
+								"Email configuration is invalid", Toast.LENGTH_SHORT)
+								.show();
+						return;
+					}
 				}
 			}
 
 			editor.putString("server", server);
+			editor.putString("email", email);
 			editor.commit();
 			Toast.makeText(getApplicationContext(), "Settings saved",
 					Toast.LENGTH_SHORT).show();

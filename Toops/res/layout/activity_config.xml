@@ -9,16 +9,32 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:text="Server:"
+        android:text="Default Server:"
         android:layout_alignParentTop="true"
         android:textSize="20sp"/>
-    
+
     <EditText
         android:id="@+id/text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:layout_below="@+id/cfgserver" />
+
+    <TextView
+        android:id="@+id/cfgemail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Default Email:"
+        android:textSize="20sp"
+        android:layout_below="@+id/text" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_below="@+id/cfgemail" />
 
     <Button
         android:id="@+id/savecfg"
