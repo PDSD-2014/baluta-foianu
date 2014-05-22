@@ -14,7 +14,7 @@
             android:layout_weight=".5"
             android:layout_height="wrap_content"
             android:background="@drawable/red_button_selector"
-            android:text="To Server" />
+            android:text="Report " />
 
         <Button
             android:id="@+id/sendE"
@@ -22,7 +22,7 @@
             android:layout_weight=".5"
             android:layout_height="wrap_content"
             android:background="@drawable/red_button_selector"
-            android:text="To Email" />
+            android:text="Email " />
 
     </LinearLayout>
 
