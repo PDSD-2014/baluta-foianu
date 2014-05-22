@@ -7,5 +7,6 @@
     <string name="oops">Oops</string>
     <string name="title_activity_capture_menu">Toops - Tracking Oops</string>
     <string name="title_activity_view_oops">View Oops</string>
+    <string name="title_activity_file_choser">FileChoser</string>
 
 </resources>

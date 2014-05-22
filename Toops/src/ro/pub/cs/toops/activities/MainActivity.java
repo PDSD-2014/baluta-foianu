@@ -63,16 +63,14 @@ public class MainActivity extends Activity {
 	private final View.OnClickListener viewSaved = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			String reply = "";
-			try {
-				reply = rs.listQr();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			// Reply is a list of id-code pairs in json format currently.
-			// Should be parsed by QrClient
+			browse();
 		}
 	};
+	
+	private final void browse() {
+		Intent fileChooserIntent = new Intent(this, FileChooser.class);
+		startActivity(fileChooserIntent);
+	}
 
 	// FIXME not tested!
 	private String interpret(byte[] archive) {

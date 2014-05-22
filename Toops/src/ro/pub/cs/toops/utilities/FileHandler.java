@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class FileHandler {
 	private static final String LOG_TAG = "FileHandler";
+	public static final String LOCAL_REPO = "scanned_oops";
 
 	/* Checks if external storage is available for read and write */
 	public static boolean isExternalStorageWritable() {
@@ -22,11 +23,11 @@ public class FileHandler {
 	}
 
 	// DIRECTORY_DOCUMENTS works only with API v19
-	public static File getDocumentsStorageDir(String dirName) {
+	public static File getDocumentsStorageDir() {
 		// Get the directory for the user's public pictures directory.
 		File file = new File(Environment.getExternalStoragePublicDirectory
 				(Environment.DIRECTORY_DOCUMENTS),
-				dirName);
+				LOCAL_REPO);
 		if (!file.mkdirs()) {
 			Log.e(LOG_TAG, "Directory not created");
 		}
@@ -36,7 +37,7 @@ public class FileHandler {
 	public static void saveOopsToFile(String text) {
 		if (!isExternalStorageWritable())
 			Log.e(LOG_TAG, "No write permissions!");
-		File file = new File(getDocumentsStorageDir("saved"), "qr_"
+		File file = new File(getDocumentsStorageDir(), "qr_"
 				+ System.currentTimeMillis());
 		try {
 			FileOutputStream f = new FileOutputStream(file);
